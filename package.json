@@ -1,0 +1,39 @@
+{
+  "name": "agenticimage-api",
+  "version": "1.0.0",
+  "description": "AI-powered image processing API with TensorFlow.js and Transformers.js",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel deploy --prod",
+    "build": "echo 'Static build complete'"
+  },
+  "keywords": [
+    "ai",
+    "image-processing",
+    "tensorflow",
+    "transformers",
+    "api",
+    "super-resolution",
+    "object-detection"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/agenticimage-api"
+  },
+  "homepage": "https://agenticimage.vercel.app",
+  "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.2.2",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.17.0",
+    "@xenova/transformers": "^2.15.1"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
