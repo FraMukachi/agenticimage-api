@@ -182,4 +182,9 @@
   });
   
   classifyBtn.addEventListener('click', () => log('Classification requested'));
-  detectBtn.addEventListener('click', () => log('
+  detectBtn.addEventListener('click', () => log('Detection requested'));
+  enhanceBtn.addEventListener('click', () => log('Enhancement requested'));
+  upscaleBtn.addEventListener('click', () => log('Upscaling requested'));
+  
+  log('System ready');
+})();
