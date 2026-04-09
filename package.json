@@ -1,17 +1,5 @@
 {
   "name": "agenticimage-api",
   "version": "1.0.0",
-  "description": "AI-powered image processing API",
-  "main": "index.html",
-  "scripts": {
-    "build": "echo 'Static site - no build required'"
-  },
-  "keywords": ["ai", "image-processing", "api"],
-  "author": "FraMukachi",
-  "license": "MIT",
-  "devDependencies": {
-    "vercel": "^32.0.0"
-  }
-}    "node": ">=18.0.0"
-  }
+  "private": true
 }
