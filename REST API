@@ -1,0 +1,3 @@
+curl -X POST https://agenticimage.vercel.app/api/upload \
+  -H "Content-Type: multipart/form-data" \
+  -F "image=@photo.jpg"
