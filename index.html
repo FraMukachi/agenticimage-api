@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>AgenticImage · AI Image Restoration API</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanline-overlay"></div>
+  <div class="grid-bg"></div>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="1" y="1" width="8" height="8" rx="1.5" stroke="#00ff88" stroke-width="1.5"/>
+            <rect x="13" y="1" width="8" height="8" rx="1.5" stroke="#00ff88" stroke-width="1.5" opacity="0.6"/>
+            <rect x="1" y="13" width="8" height="8" rx="1.5" stroke="#00ff88" stroke-width="1.5" opacity="0.6"/>
+            <rect x="13" y="13" width="8" height="8" rx="1.5" stroke="#00ff88" stroke-width="1.5"/>
+            <circle cx="11" cy="11" r="2" fill="#00ff88"/>
+          </svg>
+        </div>
+        <span class="logo-text">AgenticImage</span>
+      </div>
+      <div class="header-right">
+        <span class="version-badge">v2.0.0</span>
+        <span class="api-badge">API</span>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-tag">FREE · NO KEY REQUIRED · RUNS IN YOUR BROWSER</div>
+      <h1>Restore. Enhance.<br><span class="hero-accent">Transcend.</span></h1>
+      <p>Four specialized AI agents — noise reduction, upscaling, color restoration, and object intelligence — working as one.</p>
+    </section>
+
+    <!-- AGENTS -->
+    <div class="agents-scroll">
+      <div class="agent-card" data-agent="brain">
+        <div class="agent-glow"></div>
+        <div class="agent-emoji">🧠</div>
+        <div class="agent-name">Brain</div>
+        <div class="agent-desc">Classify</div>
+        <div class="agent-status-row">
+          <span class="status-dot" id="brainDot"></span>
+          <span class="status-label" id="brainStatus">Idle</span>
+        </div>
+      </div>
+      <div class="agent-card" data-agent="vision">
+        <div class="agent-glow"></div>
+        <div class="agent-emoji">👁️</div>
+        <div class="agent-name">Vision</div>
+        <div class="agent-desc">Detect</div>
+        <div class="agent-status-row">
+          <span class="status-dot" id="visionDot"></span>
+          <span class="status-label" id="visionStatus">Idle</span>
+        </div>
+      </div>
+      <div class="agent-card" data-agent="heart">
+        <div class="agent-glow"></div>
+        <div class="agent-emoji">❤️</div>
+        <div class="agent-name">Heart</div>
+        <div class="agent-desc">Restore</div>
+        <div class="agent-status-row">
+          <span class="status-dot" id="heartDot"></span>
+          <span class="status-label" id="heartStatus">Idle</span>
+        </div>
+      </div>
+      <div class="agent-card" data-agent="hands">
+        <div class="agent-glow"></div>
+        <div class="agent-emoji">👐</div>
+        <div class="agent-name">Hands</div>
+        <div class="agent-desc">Upscale</div>
+        <div class="agent-status-row">
+          <span class="status-dot" id="handsDot"></span>
+          <span class="status-label" id="handsStatus">Idle</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <label for="fileInput" class="upload-label" id="uploadLabel">
+      <div class="upload-zone">
+        <div class="upload-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4L16 20M16 4L10 10M16 4L22 10" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 22V26C4 27.1 4.9 28 6 28H26C27.1 28 28 27.1 28 26V22" stroke="#00ff88" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="upload-text">Drop image or tap to upload</div>
+        <div class="upload-hint">PNG · JPG · WEBP · Max 10MB</div>
+      </div>
+    </label>
+    <input type="file" id="fileInput" accept="image/*" class="hidden-input">
+
+    <!-- PREVIEW -->
+    <div class="preview-box hidden" id="previewBox">
+      <div class="preview-image-wrap">
+        <img id="previewImage" src="" alt="Preview">
+        <div class="preview-badge">ORIGINAL</div>
+      </div>
+      <div class="file-meta">
+        <div class="file-meta-item">
+          <span class="meta-label">FILE</span>
+          <span class="file-name" id="fileName">—</span>
+        </div>
+        <div class="file-meta-item">
+          <span class="meta-label">SIZE</span>
+          <span id="fileSize">—</span>
+        </div>
+        <div class="file-meta-item">
+          <span class="meta-label">DIM</span>
+          <span id="fileDimensions">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESTORATION PROFILE -->
+    <div class="section-label">RESTORATION PROFILE</div>
+    <select class="model-select" id="modelSelect">
+      <option value="full">⚡ Full Restoration Pipeline</option>
+      <option value="denoise">🔇 Denoise + Sharpen Only</option>
+      <option value="color">🎨 Color Restoration Only</option>
+      <option value="oldphoto">📷 Old Photo Recovery</option>
+      <option value="upscale">🔍 AI Upscale Only (Swin2SR)</option>
+      <option value="analyze">🧠 Analyze Only</option>
+    </select>
+
+    <!-- PRIMARY ACTION -->
+    <button class="btn btn-primary" id="processBtn" disabled>
+      <span class="btn-icon">▶</span>
+      <span>Run Restoration Pipeline</span>
+    </button>
+
+    <!-- INDIVIDUAL TOOLS -->
+    <div class="section-label">INDIVIDUAL TOOLS</div>
+    <div class="btn-grid">
+      <button class="btn btn-tool" id="denoiseBtn" disabled>
+        <span class="tool-icon">🔇</span>
+        <span class="tool-name">Denoise</span>
+        <span class="tool-desc">Remove noise & artifacts</span>
+      </button>
+      <button class="btn btn-tool" id="colorBtn" disabled>
+        <span class="tool-icon">🎨</span>
+        <span class="tool-name">Color Restore</span>
+        <span class="tool-desc">Vibrance & white balance</span>
+      </button>
+      <button class="btn btn-tool" id="sharpenBtn" disabled>
+        <span class="tool-icon">🔪</span>
+        <span class="tool-name">Sharpen</span>
+        <span class="tool-desc">Unsharp mask pass</span>
+      </button>
+      <button class="btn btn-tool" id="oldphotoBtn" disabled>
+        <span class="tool-icon">📷</span>
+        <span class="tool-name">Old Photo</span>
+        <span class="tool-desc">Restore aged photos</span>
+      </button>
+      <button class="btn btn-tool" id="classifyBtn" disabled>
+        <span class="tool-icon">🧠</span>
+        <span class="tool-name">Classify</span>
+        <span class="tool-desc">MobileNet labels</span>
+      </button>
+      <button class="btn btn-tool" id="detectBtn" disabled>
+        <span class="tool-icon">👁️</span>
+        <span class="tool-name">Detect</span>
+        <span class="tool-desc">COCO object boxes</span>
+      </button>
+      <button class="btn btn-tool" id="enhanceBtn" disabled>
+        <span class="tool-icon">✨</span>
+        <span class="tool-name">Enhance</span>
+        <span class="tool-desc">Brightness & contrast</span>
+      </button>
+      <button class="btn btn-tool" id="upscaleBtn" disabled>
+        <span class="tool-icon">🔍</span>
+        <span class="tool-name">AI Upscale</span>
+        <span class="tool-desc">Swin2SR 2× neural</span>
+      </button>
+    </div>
+
+    <button class="btn btn-ghost" id="clearBtn">✕ Clear Image</button>
+
+    <!-- PROGRESS -->
+    <div class="progress-container hidden" id="progressContainer">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-glow" id="progressGlow"></div>
+      </div>
+      <div class="progress-text" id="progressText">Processing...</div>
+    </div>
+
+    <!-- LOG -->
+    <div class="log-box">
+      <div class="log-header">
+        <span class="log-title">
+          <span class="log-dot"></span>
+          ORCHESTRATION LOG
+        </span>
+        <span class="log-count" id="logCount">0 events</span>
+      </div>
+      <div class="log-container" id="logContainer">
+        <div class="log-entry">
+          <span class="log-time">[00:00:00]</span>
+          <span class="log-agent agent-orch">ORCH</span>
+          <span class="log-msg">System initializing...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <section class="results-section hidden" id="resultsSection">
+      <div class="results-title">
+        <span class="results-icon">◈</span>
+        PROCESSED OUTPUT
+      </div>
+      <div id="resultsContainer" class="results-container"></div>
+    </section>
+
+    <!-- API DOCS -->
+    <section class="api-section">
+      <div class="api-title">
+        <span class="api-icon">&lt;/&gt;</span>
+        REST-STYLE JS API
+      </div>
+      <p class="api-desc">AgenticImage exposes <code>window.AgenticImageAPI</code> — import this page as an iframe or include the script, then call from your app.</p>
+
+      <div class="api-tabs" id="apiTabs">
+        <button class="api-tab active" data-tab="upscale">Upscale</button>
+        <button class="api-tab" data-tab="restore">Restore</button>
+        <button class="api-tab" data-tab="denoise">Denoise</button>
+        <button class="api-tab" data-tab="classify">Classify</button>
+        <button class="api-tab" data-tab="pipeline">Pipeline</button>
+      </div>
+
+      <div class="code-block" id="apiCodeBlock">
+<pre><code id="apiCode">// Upscale an image 2× using Swin2SR neural model
+const api = window.AgenticImageAPI;
+
+// Pass a File, Blob, or base64 dataURL
+const result = await api.upscale(imageFile);
+// result.output  → base64 PNG (2× resolution)
+// result.width   → output width
+// result.height  → output height
+// result.time    → ms taken</code></pre>
+      </div>
+
+      <div class="endpoint-list">
+        <div class="endpoint-row">
+          <span class="method-badge get">GET</span>
+          <span class="endpoint-url">AgenticImageAPI.status()</span>
+          <span class="endpoint-desc">Model load state</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.upscale(file)</span>
+          <span class="endpoint-desc">2× Swin2SR neural upscale</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.denoise(file)</span>
+          <span class="endpoint-desc">Noise + artifact removal</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.restoreColor(file)</span>
+          <span class="endpoint-desc">Vibrance + white balance</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.restoreOldPhoto(file)</span>
+          <span class="endpoint-desc">Full old photo recovery</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.sharpen(file)</span>
+          <span class="endpoint-desc">Unsharp mask sharpening</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.enhance(file)</span>
+          <span class="endpoint-desc">Brightness + contrast boost</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.classify(file)</span>
+          <span class="endpoint-desc">MobileNet top-5 labels</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.detect(file)</span>
+          <span class="endpoint-desc">COCO-SSD bounding boxes</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge post">POST</span>
+          <span class="endpoint-url">AgenticImageAPI.pipeline(file, opts)</span>
+          <span class="endpoint-desc">Full restoration chain</span>
+        </div>
+      </div>
+
+      <p class="api-note">✓ 100% client-side · No rate limits · No API key · Models cached after first load</p>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="#" class="footer-link">Docs</a>
+        <a href="#" class="footer-link">GitHub</a>
+        <a href="#" class="footer-link">Pricing</a>
+      </div>
+      <div class="footer-copy">© 2025 AgenticImage · Free Forever</div>
+    </footer>
+
+  </div>
+
+  <!-- External ML Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
